@@ -1,12 +1,43 @@
-.sidenav-container {
-    height: 100vh;
+$primary-color: #6458D7 ;
+
+.sidebar{
     display: flex;
-    
+    flex-direction: column;
+    min-width: 20vw;
+    height: 100vh;
+    background-color: $primary-color!important; 
+    padding-top: 3em;
 }
 
-.sidenav-custom {
-    max-width: 250px;
-    background-color: #6458D7 ; 
-    color: white;
+.navbar {
+    display: flex;
+    width: 100%;
+}
+
+.nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1em;
+    width: 100%;
+}
+
+.sidebar a {
+    /* margin-top: 1em; */
+    padding: 10px 15px 10px 10px;
+    margin-top: 1em;
+    text-decoration: none;
+    font-size: 18px;
+    color: #FFFF;
+    width: 20vw;
+    text-align: center;
+    border-radius: 15px;
+}
+  
+.sidebar a:hover, a:focus {
+    box-shadow: 1px 1px 6px rgba(0.1, 0.1, 0.1, 0.2);   
+    color: #ffffff;
+    background-color: lighten($primary-color, 5%); // Aclara el color en un 20%
+    
 }
 

@@ -1,10 +1,15 @@
-<mat-sidenav-container class="sidenav-container">
-    <mat-sidenav mode="side" opened class="sidenav-custom">
-      <mat-nav-list>
-        <a mat-list-item href="#">Inicio</a>
-        <a mat-list-item href="#">Lista Turnos</a>
-        <a mat-list-item href="#">Profesionales</a>
-        <a mat-list-item href="#">Salir</a>
-      </mat-nav-list>
-    </mat-sidenav>
-<mat-sidenav-container/>
+<div class="sidebar" >
+  <nav class="navbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" matRipple [routerLink]="['/home']">Calendar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" matRipple [routerLink]="['/listTurnos']"> Lista Turnos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" matRipple [routerLink]="['/profesionales']"> Profesionales</a>
+        </li>
+      </ul>
+  </nav>
+</div>
