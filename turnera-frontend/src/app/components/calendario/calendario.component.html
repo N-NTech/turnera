@@ -1,0 +1,52 @@
+<div class="demo-app container">
+    <!-- Sidebar -->
+    <div class="row">
+      <!-- <div class="col-lg-4 col-md-12 demo-app-sidebar"> -->
+        <!-- Toggle calendario
+        <div class="demo-app-sidebar-section">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="calendarVisible()"
+              (change)="handleCalendarToggle()"
+            />
+            Mostrar/ocultar todo el calendario
+          </label>
+        </div> -->
+        
+        <!-- Toggle fines de semana -->
+        <!-- <div class="demo-app-sidebar-section">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="calendarOptions().weekends"
+              (change)="handleWeekendsToggle()"
+            />
+            Mostrar/ocultar fines de semana
+          </label>
+        </div> -->
+        
+        <!-- Lista de eventos -->
+        <!-- <div class="demo-app-sidebar-section">
+          <p>Todos los eventos ({{ currentEvents().length }})</p>
+          <ul>
+            <li *ngFor="let event of currentEvents()">
+              <b>{{ event.startStr }}</b>
+              <i>{{ event.title }}</i>
+            </li>
+          </ul>
+        </div>
+      </div> -->
+      
+      <!-- Calendario principal -->
+      <div class="col demo-app-main">
+        <full-calendar *ngIf="calendarVisible()" [options]="calendarOptions()">
+          <ng-template #eventContent let-arg>
+            <b>{{ arg.timeText }}</b>
+            <i>{{ arg.event.title }}</i>
+          </ng-template>
+        </full-calendar>
+      </div>
+    </div>
+  </div>
+  
