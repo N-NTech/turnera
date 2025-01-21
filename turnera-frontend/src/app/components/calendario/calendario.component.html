@@ -1,6 +1,6 @@
-<div class="demo-app container">
+<div class="container-fluid demo-app ">
     <!-- Sidebar -->
-    <div class="row">
+    <div class="row d-flex flex-column">
       <!-- <div class="col-lg-4 col-md-12 demo-app-sidebar"> -->
         <!-- Toggle calendario
         <div class="demo-app-sidebar-section">
@@ -39,7 +39,7 @@
       </div> -->
       
       <!-- Calendario principal -->
-      <div class="col demo-app-main">
+      <div class="col demo-app-main d-flex">
         <full-calendar *ngIf="calendarVisible()" [options]="calendarOptions()">
           <ng-template #eventContent let-arg>
             <b>{{ arg.timeText }}</b>
