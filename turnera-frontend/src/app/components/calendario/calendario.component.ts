@@ -1,15 +1,48 @@
-import { ChangeDetectorRef, Component, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, effect, input, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput, DateInput } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import esLocale from '@fullcalendar/core/locales/es';
 
-// Función para crear IDs únicos
+class EventInputCustom implements EventInput {
+  id?: string | undefined;
+  title?: string | undefined;
+  start?: DateInput | undefined;
+  end?: DateInput | undefined;
+  profesional?: string;
+}
+
 let eventGuid = 0;
-export function createEventId(): string {
+const TODAY_STR = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
+
+export let INITIAL_EVENTS: EventInputCustom[] = [
+  {
+    id: createEventId(),
+    title: 'Instalacion aire acondicionado',
+    start: TODAY_STR,
+    profesional: 'Juan Perez',
+  },
+  {
+    id: createEventId(),
+    title: 'Corte y confeccion',
+    start: TODAY_STR + 'T09:00:00',
+    end: TODAY_STR + 'T11:00:00',
+    profesional: 'Maria Rodriguez',
+  },
+  {
+    id: createEventId(),
+    title: 'Uñas y esmaltado',
+    start: TODAY_STR + 'T12:00:00',
+    end: TODAY_STR + 'T15:00:00',
+    profesional: 'Juan Perez',
+  }
+];
+
+export function createEventId() {
   return String(eventGuid++);
 }
 
@@ -21,9 +54,22 @@ export function createEventId(): string {
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.component.scss'], 
 })
+
 export class CalendarioComponent {
+  profesionales = input<string[]>([]);
+
+  private events = computed(() => {
+    if (this.profesionales().length === 0) {
+      return INITIAL_EVENTS;
+    }
+    return INITIAL_EVENTS.filter(event => 
+      this.profesionales().includes(event.profesional || '')
+    );
+  });
+
   calendarVisible = signal(true);
-  calendarOptions = signal<CalendarOptions>({
+  calendarOptions = computed<CalendarOptions>(() => ({
+    locale: esLocale,
     plugins: [
       interactionPlugin,
       dayGridPlugin,
@@ -36,7 +82,7 @@ export class CalendarioComponent {
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
     },
     initialView: 'dayGridMonth',
-    // initialEvents: INITIAL_EVENTS,
+    events: this.events(), // Usamos directamente el computed
     weekends: true,
     editable: true,
     selectable: true,
@@ -46,21 +92,15 @@ export class CalendarioComponent {
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
     themeSystem: 'standard',
-  });
-
-  currentEvents = signal<EventApi[]>([]);
+  }));
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
+  currentEvents = signal<EventApi[]>([]);
+
+
   handleCalendarToggle() {
     this.calendarVisible.update((bool) => !bool);
-  }
-
-  handleWeekendsToggle() {
-    this.calendarOptions.update((options) => ({
-      ...options,
-      weekends: !options.weekends,
-    }));
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {

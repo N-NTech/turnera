@@ -17,14 +17,14 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class CalendarComponent {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  readonly currentFruit = model('');
-  readonly fruits = signal(['Lemon']);
-  readonly allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-  readonly filteredFruits = computed(() => {
-    const currentFruit = this.currentFruit().toLowerCase();
-    return currentFruit
-      ? this.allFruits.filter(fruit => fruit.toLowerCase().includes(currentFruit))
-      : this.allFruits.slice();
+  readonly currentProfesional = model('');
+  readonly profesionales = signal<string[]>([]);
+  readonly allProfesionales: string[] = ['Juan Perez', 'Maria Rodriguez', 'Lucas Mandela'];
+  readonly filteredProfesionales = computed(() => {
+    const currentProfesional = this.currentProfesional().toLowerCase();
+    return currentProfesional
+      ? this.allProfesionales.filter(prof => prof.toLowerCase().includes(currentProfesional))
+      : this.allProfesionales.slice();
   });
 
   readonly announcer = inject(LiveAnnouncer);
@@ -32,31 +32,30 @@ export class CalendarComponent {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our fruit
     if (value) {
-      this.fruits.update(fruits => [...fruits, value]);
+      this.profesionales.update(profs => [...profs, value]);
     }
 
     // Clear the input value
-    this.currentFruit.set('');
+    this.currentProfesional.set(' ');
   }
 
-  remove(fruit: string): void {
-    this.fruits.update(fruits => {
-      const index = fruits.indexOf(fruit);
+  remove(profesional: string): void {
+    this.profesionales.update(profs => {
+      const index = profs.indexOf(profesional);
       if (index < 0) {
-        return fruits;
+        return profs;
       }
 
-      fruits.splice(index, 1);
-      this.announcer.announce(`Removed ${fruit}`);
-      return [...fruits];
+      profs.splice(index, 1);
+      this.announcer.announce(`Removed ${profesional}`);
+      return [...profs];
     });
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.update(fruits => [...fruits, event.option.viewValue]);
-    this.currentFruit.set('');
+    this.profesionales.update(profs => [...profs, event.option.viewValue]);
+    this.currentProfesional.set('');
     event.option.deselect();
   }
 }

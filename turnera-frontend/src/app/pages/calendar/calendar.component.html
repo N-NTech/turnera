@@ -3,30 +3,30 @@
         <div class="col col-chip">
             <form>
                 <mat-form-field class="example-chip-list">
-                  <mat-label>Favorite Fruits</mat-label>
+                  <mat-label>Profesionales</mat-label>
                   <mat-chip-grid #chipGrid aria-label="Fruit selection">
-                    @for (fruit of fruits(); track $index) {
-                      <mat-chip-row (removed)="remove(fruit)">
-                        {{fruit}}
-                        <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+                    @for (profesional of profesionales(); track $index) {
+                      <mat-chip-row (removed)="remove(profesional)">
+                        {{profesional}}
+                        <button matChipRemove [attr.aria-label]="'remove ' + profesional">
                           <mat-icon>cancel</mat-icon>
                         </button>
                       </mat-chip-row>
                     }
                   </mat-chip-grid>
                   <input
-                    name="currentFruit"
-                    placeholder="New Fruit..."
+                    name="currentProfesional"
+                    placeholder=""
                     #fruitInput
-                    [(ngModel)]="currentFruit"
+                    [(ngModel)]="currentProfesional"
                     [matChipInputFor]="chipGrid"
                     [matAutocomplete]="auto"
                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                     (matChipInputTokenEnd)="add($event)"
                   />
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                    @for (fruit of filteredFruits(); track fruit) {
-                      <mat-option [value]="fruit">{{fruit}}</mat-option>
+                    @for (profesional of filteredProfesionales(); track profesional) {
+                      <mat-option [value]="profesional">{{profesional}}</mat-option>
                     }
                   </mat-autocomplete>
                 </mat-form-field>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="col">
-            <app-calendario></app-calendario>
+            <app-calendario [profesionales]="profesionales()"></app-calendario>
         </div>
 
     </div>
