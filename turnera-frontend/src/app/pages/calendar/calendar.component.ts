@@ -16,7 +16,6 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent {
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   readonly currentProfesional = model('');
   readonly profesionales = signal<string[]>([]);
   readonly allProfesionales: string[] = ['Juan Perez', 'Maria Rodriguez', 'Lucas Mandela'];
@@ -53,9 +52,11 @@ export class CalendarComponent {
     });
   }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
+  selected(event: MatAutocompleteSelectedEvent, input: any): void {
+
     this.profesionales.update(profs => [...profs, event.option.viewValue]);
     this.currentProfesional.set('');
+    input.value = '';
     event.option.deselect();
   }
 }

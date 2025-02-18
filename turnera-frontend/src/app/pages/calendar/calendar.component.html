@@ -4,7 +4,7 @@
             <form>
                 <mat-form-field class="example-chip-list">
                   <mat-label>Profesionales</mat-label>
-                  <mat-chip-grid #chipGrid aria-label="Fruit selection">
+                  <mat-chip-grid #chipGrid aria-label="Profesional selection">
                     @for (profesional of profesionales(); track $index) {
                       <mat-chip-row (removed)="remove(profesional)">
                         {{profesional}}
@@ -17,14 +17,12 @@
                   <input
                     name="currentProfesional"
                     placeholder=""
-                    #fruitInput
+                    #profesionalInput
                     [(ngModel)]="currentProfesional"
                     [matChipInputFor]="chipGrid"
                     [matAutocomplete]="auto"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                    (matChipInputTokenEnd)="add($event)"
                   />
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event, profesionalInput)">
                     @for (profesional of filteredProfesionales(); track profesional) {
                       <mat-option [value]="profesional">{{profesional}}</mat-option>
                     }
