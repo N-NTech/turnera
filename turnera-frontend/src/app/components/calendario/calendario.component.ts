@@ -45,6 +45,7 @@ export class CalendarioComponent {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
+    themeSystem: 'standard',
   });
 
   currentEvents = signal<EventApi[]>([]);

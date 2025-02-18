@@ -1,52 +1,12 @@
-<div class="container-fluid demo-app ">
-    <!-- Sidebar -->
-    <div class="row d-flex flex-column">
-      <!-- <div class="col-lg-4 col-md-12 demo-app-sidebar"> -->
-        <!-- Toggle calendario
-        <div class="demo-app-sidebar-section">
-          <label>
-            <input
-              type="checkbox"
-              [checked]="calendarVisible()"
-              (change)="handleCalendarToggle()"
-            />
-            Mostrar/ocultar todo el calendario
-          </label>
-        </div> -->
-        
-        <!-- Toggle fines de semana -->
-        <!-- <div class="demo-app-sidebar-section">
-          <label>
-            <input
-              type="checkbox"
-              [checked]="calendarOptions().weekends"
-              (change)="handleWeekendsToggle()"
-            />
-            Mostrar/ocultar fines de semana
-          </label>
-        </div> -->
-        
-        <!-- Lista de eventos -->
-        <!-- <div class="demo-app-sidebar-section">
-          <p>Todos los eventos ({{ currentEvents().length }})</p>
-          <ul>
-            <li *ngFor="let event of currentEvents()">
-              <b>{{ event.startStr }}</b>
-              <i>{{ event.title }}</i>
-            </li>
-          </ul>
-        </div>
-      </div> -->
-      
-      <!-- Calendario principal -->
-      <div class="col demo-app-main d-flex">
-        <full-calendar *ngIf="calendarVisible()" [options]="calendarOptions()">
-          <ng-template #eventContent let-arg>
-            <b>{{ arg.timeText }}</b>
-            <i>{{ arg.event.title }}</i>
-          </ng-template>
-        </full-calendar>
-      </div>
-    </div>
+<div class="container-fluid demo-app fc-theme-bootstrap5">
+
+  <!-- Calendario principal -->
+  <div class="col demo-app-main d-flex fc-theme-bootstrap5">
+    <full-calendar *ngIf="calendarVisible()" [options]="calendarOptions()">
+      <ng-template #eventContent let-arg>
+        <b>{{ arg.timeText }}</b>
+        <i>{{ arg.event.title }}</i>
+      </ng-template>
+    </full-calendar>
   </div>
-  
+</div>
