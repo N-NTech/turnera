@@ -5,6 +5,7 @@ import { ProfesionalesComponent } from './pages/profesionales/profesionales.comp
 
 export const routes: Routes = [
 
+    {path: '', component: CalendarComponent},
     {path: 'home', component: CalendarComponent},
     {path: 'listTurnos', component: ListTurnosComponent},
     {path: 'profesionales', component: ProfesionalesComponent},

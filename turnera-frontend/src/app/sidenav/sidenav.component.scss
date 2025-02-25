@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+    
+  .is-mobile .toolbar {
+    position:fixed;
+    height: 56px;
+    z-index: 2;
+  }
+  
+  .sidenav-container {
+    flex: 1;
+    min-height: 100vh;
+    // background-color: gray;
+  }
+  
+  .is-mobile .sidenav-container {
+    padding-top: 56px;
+    flex: 1 0 auto;
+   
+  }
+
+  //Contenido del sidenav menu desktop
+  .mat-drawer{
+    background-color: rgb(20, 1, 43) !important;
+    max-width: 270px;
+    width: 20vw;
+  }
+
+   //Contenido del sidenav menu mobile
+  .mat-drawer.is-mobile{
+    background-color: rgb(36, 0, 104) !important;
+    max-width: 100%;
+    width: 360px;
+  }

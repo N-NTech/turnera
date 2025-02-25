@@ -21,6 +21,6 @@ $primary-color: #6458D7;
     &:hover,
     &:focus {
         box-shadow: 1px 1px 6px rgba(0.1, 0.1, 0.1, 0.2); 
-        background-color: lighten($primary-color, 5%);
+        background-color: color-mix(in srgb, $primary-color 95%, white);
     }
   }

@@ -1,0 +1,33 @@
+<div [class.is-mobile]="isMobile()" class="sidenav-menu">
+    @if (isMobile()) {
+        <mat-toolbar class="toolbar">
+            <button mat-icon-button (click)="snav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </mat-toolbar>
+    }
+
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav [class.is-mobile]="isMobile()" #snav [opened]="!isMobile()" [mode]="isMobile() ? 'over' : 'side'" [fixedInViewport]="isMobile()" fixedTopGap="56">
+            <mat-nav-list>
+                    <mat-list-item routerLink="/" (click)="isMobile() && snav.toggle()"> 
+                    <mat-icon matListItemIcon>home</mat-icon>
+                    Calendar
+                </mat-list-item>
+                <mat-list-item routerLink="/listTurnos" (click)="isMobile() && snav.toggle()">
+                    <mat-icon matListItemIcon>info</mat-icon>
+                    Lista Turnos
+                </mat-list-item>
+                <mat-list-item routerLink="/profesionales" (click)="isMobile() && snav.toggle()">
+                    <mat-icon matListItemIcon>person</mat-icon>
+                    Profesionales
+                </mat-list-item>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
