@@ -1,3 +1,5 @@
+@import '../../../../src/styles.scss';
+
 h2 {
     margin: 0;
     font-size: 16px;
@@ -30,13 +32,6 @@ h2 {
     padding: 0;
   }
   
-  .demo-app-sidebar {
-    width: 300px;
-    line-height: 1.5;
-    // background-color: #17abe6;
-    border-right: 1px solid #d3e2e8;
-  }
-  
   .demo-app-sidebar-section {
     // background-color: #17abe6;
     padding: 2em;
@@ -52,9 +47,14 @@ h2 {
     // background-color: rgb(152, 240, 11);
   }
 
+  //Ancho y alto del calendario
   full-calendar{
-    width: 80%;
-    // background-color: #17abe6;
+    width: 100% !important;
+    min-height: 640px !important;
+
+    //Color de letra y fondo del calendario
+    color: #{$color-fuente-calendario} !important; 
+    background-color:  #{$bg-color-calendario} !important;
   }
 
   .fc-button {

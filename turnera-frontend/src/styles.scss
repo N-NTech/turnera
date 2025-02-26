@@ -1,7 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'sass:color';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;  }
+body { background-color: #000000; }
+
+// Variables de colores
+$titulos-agenda: #240124;
+$bg-color-calendario: #181616;
+$bg-color-hover-agenda: #740074;
+$color-fuente-calendario: #ffffff;
+$bg-color-sidenav: #14012b;
+$bg-color-boton-calendario: #640364;
+
+
+
+:root {
+  //Agenda Calendario
+  --fc-neutral-bg-color: #{$titulos-agenda}; // Color del TH de agenda
+  --fc-list-event-hover-bg-color: #{$bg-color-hover-agenda}; // Color de fondo hover eventos agenda
+
+  //Botones Calendario
+  --fc-button-bg-color: #{$bg-color-boton-calendario}; // Color de fondo botones
+  --fc-button-border-color: #{$bg-color-boton-calendario}; // Color borde botones
+  //Hover y Active
+  --fc-button-hover-bg-color: #{color.scale($bg-color-boton-calendario, $lightness: 25%)}; // Color de fondo hover, una version más clara del color del boton
+  --fc-button-hover-border-color: #{color.scale($bg-color-boton-calendario, $lightness: 25%)}; // Color borde hover, una version más clara del color del boton
+  --fc-button-active-bg-color: #{color.scale($bg-color-boton-calendario, $lightness: 25%)}; // Color de fondo activo, una version más clara del color del boton
+  --fc-button-active-border-color: #{color.scale($bg-color-boton-calendario, $lightness: 25%)}; // Color borde activo, una version más clara del color del boton
+}
+
 
 
 // app-root {

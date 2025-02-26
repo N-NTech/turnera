@@ -1,3 +1,5 @@
+@import '../../styles.scss';
+
 .container {
     display: flex;
     flex-direction: column;
@@ -28,14 +30,19 @@
 
   //Contenido del sidenav menu desktop
   .mat-drawer{
-    background-color: rgb(20, 1, 43) !important;
+    background-color: #{$bg-color-sidenav} !important;
     max-width: 270px;
     width: 20vw;
   }
 
    //Contenido del sidenav menu mobile
   .mat-drawer.is-mobile{
-    background-color: rgb(36, 0, 104) !important;
+    background-color: #{$bg-color-sidenav} !important;
     max-width: 100%;
     width: 360px;
+  }
+
+  .mat-drawer-container{
+    color: inherit !important;
+    background-color: inherit !important;
   }
