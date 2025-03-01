@@ -27,12 +27,33 @@ $bg-color-boton-calendario: #640364;
   --fc-button-hover-border-color: #{color.scale($bg-color-boton-calendario, $lightness: 25%)}; // Color borde hover, una version más clara del color del boton
   --fc-button-active-bg-color: #{color.scale($bg-color-boton-calendario, $lightness: 25%)}; // Color de fondo activo, una version más clara del color del boton
   --fc-button-active-border-color: #{color.scale($bg-color-boton-calendario, $lightness: 25%)}; // Color borde activo, una version más clara del color del boton
+
+  // --fc-event-border-color: transparent; // Color borde eventos
 }
 
+//ESTILOS CALENDARIO
 
 
-// app-root {
-//     display: flex;
-//     justify-content: flex-start;
-    
-// }
+//Evento en la vista calendario
+.fc-h-event{
+  border: none //Eliminar bordes azules
+}
+
+//AGENDA
+
+//Color del dialog +eventos
+.fc .fc-more-popover .fc-popover-body {
+  padding: 5%;
+  background-color: #{$bg-color-calendario};
+}
+
+//Evento en la vista semana
+.fc-timegrid-event-harness-inset .fc-timegrid-event, .fc-timegrid-event.fc-event-mirror, .fc-timegrid-more-link {
+  box-shadow: none //Eliminar sombra de los eventos en la vista semana
+}
+
+//Eliminar borde de evento vista dia
+.fc-v-event {
+  border: none;
+}
+
