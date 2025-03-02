@@ -98,6 +98,14 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/turnera/",
+            "name": "N&N Tech",
+            "email": "team@N&N.Tech"
+          }
         }
       }
     }
