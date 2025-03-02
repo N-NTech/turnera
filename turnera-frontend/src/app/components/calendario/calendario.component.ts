@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, computed, effect, input, Signal, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, input, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput, DateInput } from '@fullcalendar/core';
+import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput, DateInput, CalendarApi } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -112,13 +112,12 @@ export function createEventId() {
   return String(eventGuid++);
 }
 
-
 @Component({
   selector: 'app-calendario',
   standalone: true,
   imports: [CommonModule, FullCalendarModule],
   templateUrl: './calendario.component.html',
-  styleUrls: ['./calendario.component.scss'], 
+  styleUrls: ['./calendario.component.scss'],
 })
 
 export class CalendarioComponent {
@@ -133,7 +132,23 @@ export class CalendarioComponent {
     );
   });
 
-  calendarVisible = signal(true);
+  isTouchDevice = false;
+
+  private headerToolbar = computed(() => {
+    return this.isTouchDevice 
+      ? { 
+          left: 'title', 
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        }
+      : {
+          left: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+          center: 'title',
+          right: 'prev,next today'
+        };
+  });
+  
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+  private calendarApi = signal<any>(null);
   calendarOptions = computed<CalendarOptions>(() => ({
     themeSystem: 'bootstrap5',
     //eventBorderColor: 'black', // Tambien altera el "punto" de la agenda
@@ -144,11 +159,7 @@ export class CalendarioComponent {
       timeGridPlugin,
       listPlugin,
     ],
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-    },
+    headerToolbar: this.headerToolbar(),
     initialView: 'dayGridMonth',
     events: this.events(), // Usamos directamente el computed
     weekends: true,
@@ -156,20 +167,31 @@ export class CalendarioComponent {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
-    displayEventTime: false, //No muestra la hora del evento
-    select: this.handleDateSelect.bind(this),
-    eventClick: this.handleEventClick.bind(this),
-    eventsSet: this.handleEvents.bind(this),
+    //Configuraciones especificas para cada vista
+    views: {
+      dayGridMonth: { // name of view
+        titleFormat: { year: 'numeric', month: 'long' },
+        displayEventTime: false, //No muestra la hora del evento
+      }
+    },
+    // displayEventTime: true,
+    // select: this.handleDateSelect.bind(this),
+    // eventClick: this.handleEventClick.bind(this),
+    // eventsSet: this.handleEvents.bind(this),
   }));
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(private changeDetector: ChangeDetectorRef) {
+    // Detecta si es un dispositivo tactil
+    this.isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches || 
+                        ('ontouchstart' in window && navigator.maxTouchPoints > 0);
+  }
+
+  ngAfterViewInit() {
+    let calendarAPI: CalendarApi = this.calendarComponent.getApi();
+    this.calendarApi.set(calendarAPI);
+  }
 
   currentEvents = signal<EventApi[]>([]);
-
-
-  handleCalendarToggle() {
-    this.calendarVisible.update((bool) => !bool);
-  }
 
   handleDateSelect(selectInfo: DateSelectArg) {
     const title = prompt('Please enter a new title for your event');
@@ -198,4 +220,18 @@ export class CalendarioComponent {
     this.currentEvents.set(events);
     this.changeDetector.detectChanges(); 
   }
+
+  //Cambia el mes/semana/dia con un swipe si es un dispositivo tactil
+  onSwipeLeft(): void {
+    if (this.isTouchDevice) {
+      this.calendarApi().next();
+    }
+  }
+
+  onSwipeRight(): void {
+    if (this.isTouchDevice) {
+      this.calendarApi().prev();
+    }
+  }
+
 }

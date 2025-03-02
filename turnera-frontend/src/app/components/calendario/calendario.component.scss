@@ -56,3 +56,64 @@ h2 {
     color: #{$color-fuente-calendario} !important; 
     background-color:  #{$bg-color-calendario} !important;
   }
+
+    .swipe-container {
+      position: relative;
+  
+      // Deshabilitar gestos táctiles por defecto
+      touch-action: none;
+  
+      // Habilitar gestos táctiles solo en dispositivos táctiles
+      @media (hover: none) and (pointer: coarse) {
+        touch-action: pan-y pinch-zoom;
+  
+        ::ng-deep {
+          .fc {
+            touch-action: pan-y pinch-zoom;
+          }
+  
+          // Botones y eventos para todas las vistas
+          .fc-button,
+          .fc-event {
+            pointer-events: auto;
+            touch-action: manipulation;
+          }
+  
+          // Vista mes
+          .fc-daygrid-day-top,
+          .fc-daygrid-day-number,
+          .fc-daygrid-day-frame,
+          .fc-scrollgrid-sync-table {
+            pointer-events: auto;
+            touch-action: pan-y pinch-zoom;
+          }
+  
+          // Vista semana y día
+          .fc-timegrid-body,
+          .fc-timegrid-cols,
+          .fc-timegrid-col,
+          .fc-timegrid-slots {
+            pointer-events: auto;
+            touch-action: pan-y pinch-zoom;
+          }
+  
+          // Vista lista
+          .fc-list,
+          .fc-list-table,
+          .fc-list-day,
+          .fc-list-view,
+          .fc-scroller,
+          .fc-list-empty,
+          .fc-list-heading,
+          .fc-list-event-container {
+            pointer-events: auto;
+            touch-action: pan-y pinch-zoom;
+          }
+  
+          // Contenedor principal de la vista lista
+          .fc-view-harness {
+            touch-action: pan-y pinch-zoom;
+          }
+        }
+      }
+    }

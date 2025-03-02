@@ -1,17 +1,17 @@
-<div class="container-fluid demo-app">
+<div class="swipe-container" (swipeleft)="onSwipeLeft()" (swiperight)="onSwipeRight()">
+  <div class="container-fluid demo-app">
+    <div class="col demo-app-main d-flex">
+      <full-calendar #calendar [options]="calendarOptions()">
+        <!-- <ng-template #eventContent let-arg> -->
+          <!-- Sin la hora el calendario se ve menos apretado -->
+          <!-- <b>{{ arg.timeText }}</b> -->
 
-  <!-- Calendario principal -->
-  <div class="col demo-app-main d-flex">
-    <full-calendar *ngIf="calendarVisible()" [options]="calendarOptions()">
-      <!-- <ng-template #eventContent let-arg> -->
-        <!-- Sin la hora el calendario se ve menos apretado -->
-        <!-- <b>{{ arg.timeText }}</b> -->
-
-        <!-- <i>{{ arg.event.title}</i> -->
-        <!-- <i>{{ arg.event.extendedProps.cliente}} {{"-"}} {{arg.event.title}}</i> -->
-        <!-- <i>{{ arg.event.extendedProps.cliente }}</i> -->
-        <!-- <i>{{ arg.event.extendedProps.profesional }}</i> -->
-      <!-- </ng-template> -->
-    </full-calendar>
+          <!-- <i>{{ arg.event.title}</i> -->
+          <!-- <i>{{ arg.event.extendedProps.cliente}} {{"-"}} {{arg.event.title}}</i> -->
+          <!-- <i>{{ arg.event.extendedProps.cliente }}</i> -->
+          <!-- <i>{{ arg.event.extendedProps.profesional }}</i> -->
+        <!-- </ng-template> -->
+      </full-calendar>
+    </div>
   </div>
 </div>
