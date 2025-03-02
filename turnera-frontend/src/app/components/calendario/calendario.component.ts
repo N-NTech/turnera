@@ -1,12 +1,13 @@
-import { ChangeDetectorRef, Component, computed, input, signal, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, Input, input, Signal, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput, DateInput, CalendarApi } from '@fullcalendar/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput, DateInput, CalendarApi, FormatterInput } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import esLocale from '@fullcalendar/core/locales/es';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 class EventInputCustom implements EventInput {
   id?: string | undefined;
@@ -121,6 +122,34 @@ export function createEventId() {
 })
 
 export class CalendarioComponent {
+
+  //Muestra una vista segun si es Calendario o Agenda
+  isAgenda = input<boolean>();
+  private initialView = computed(() => this.isAgenda() ? 'listDay' : 'dayGridMonth');
+
+//Detecta si el dispositivo es mobile
+protected readonly isMobile = signal<boolean>(false);
+
+  private readonly _mobileQuery: MediaQueryList;
+  private readonly _mobileQueryListener: () => void;
+
+//Muestra un formato de titulo segun si es mobile o no
+  private dayTitleFormat: Signal<FormatterInput> = computed(() => {
+    console.log('isMobile', this.isMobile());
+    return this.isMobile() ? { day: 'numeric', month: 'numeric', year: '2-digit' } : { day: 'numeric', month: 'long', year: '2-digit', };
+  });
+
+
+  //Detecta si es un dispositivo tactil
+  isTouchDevice = false;
+
+  //Muestra los botones de navegacion segun si es un dispositivo tactil
+  private headerToolbar = computed(() => {
+    return this.isAgenda() ? { left: 'title', right: 'listDay,listWeek,listMonth' } 
+    : this.isTouchDevice ? { left: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' } 
+    : { left: 'dayGridMonth,timeGridWeek,timeGridDay', center: 'title', right: 'prev,next today' };
+  });
+
   profesionales = input<string[]>([]);
 
   private events = computed(() => {
@@ -132,21 +161,7 @@ export class CalendarioComponent {
     );
   });
 
-  isTouchDevice = false;
-
-  private headerToolbar = computed(() => {
-    return this.isTouchDevice 
-      ? { 
-          left: 'title', 
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-        }
-      : {
-          left: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-          center: 'title',
-          right: 'prev,next today'
-        };
-  });
-  
+  //Configuracion del calendario
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   private calendarApi = signal<any>(null);
   calendarOptions = computed<CalendarOptions>(() => ({
@@ -160,8 +175,9 @@ export class CalendarioComponent {
       listPlugin,
     ],
     headerToolbar: this.headerToolbar(),
-    initialView: 'dayGridMonth',
+    initialView: this.initialView(),
     events: this.events(), // Usamos directamente el computed
+    hiddenDays: [], // Oculta dias [0,1,2]
     weekends: true,
     editable: true,
     selectable: true,
@@ -172,7 +188,22 @@ export class CalendarioComponent {
       dayGridMonth: { // name of view
         titleFormat: { year: 'numeric', month: 'long' },
         displayEventTime: false, //No muestra la hora del evento
+      },
+      timeGridDay: {
+        titleFormat: this.dayTitleFormat(),
+      },
+      listDay: {
+        titleFormat: this.dayTitleFormat(),
+        buttonText: 'Dia'
+      },
+      listWeek: {
+        buttonText: 'Semana',
+        titleFormat: { day: "numeric", year: '2-digit', month: '2-digit' },
+      },
+      listMonth: {
+        buttonText: 'Mes'
       }
+
     },
     // displayEventTime: true,
     // select: this.handleDateSelect.bind(this),
@@ -181,6 +212,17 @@ export class CalendarioComponent {
   }));
 
   constructor(private changeDetector: ChangeDetectorRef) {
+
+    console.log("isAgenda", this.isAgenda);
+
+    //Detecta si el dispositivo es mobile
+    const media = inject(MediaMatcher);
+
+    this._mobileQuery = media.matchMedia('(max-width: 600px)');
+    this.isMobile.set(this._mobileQuery.matches);
+    this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
+    this._mobileQuery.addEventListener('change', this._mobileQueryListener);
+
     // Detecta si es un dispositivo tactil
     this.isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches || 
                         ('ontouchstart' in window && navigator.maxTouchPoints > 0);
@@ -189,6 +231,10 @@ export class CalendarioComponent {
   ngAfterViewInit() {
     let calendarAPI: CalendarApi = this.calendarComponent.getApi();
     this.calendarApi.set(calendarAPI);
+  }
+
+  ngOnDestroy(): void {
+    this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
 
   currentEvents = signal<EventApi[]>([]);
