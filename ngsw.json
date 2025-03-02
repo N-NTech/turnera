@@ -1,7 +1,7 @@
 {
   "configVersion": 1,
-  "timestamp": 1740896246614,
-  "index": "https://angular-schule.github.io/angular-cli-ghpages/index.html",
+  "timestamp": 1740897550145,
+  "index": "/turnera/index.html",
   "assetGroups": [
     {
       "name": "app",
@@ -11,14 +11,14 @@
         "ignoreVary": true
       },
       "urls": [
-        "https://angular-schule.github.io/angular-cli-ghpages/chunk-FNZP5N25.js",
-        "https://angular-schule.github.io/angular-cli-ghpages/chunk-ZEBTN67S.js",
-        "https://angular-schule.github.io/angular-cli-ghpages/favicon.ico",
-        "https://angular-schule.github.io/angular-cli-ghpages/index.html",
-        "https://angular-schule.github.io/angular-cli-ghpages/main-GNYF7KEB.js",
-        "https://angular-schule.github.io/angular-cli-ghpages/manifest.webmanifest",
-        "https://angular-schule.github.io/angular-cli-ghpages/polyfills-FFHMD2TL.js",
-        "https://angular-schule.github.io/angular-cli-ghpages/styles-4YV7RNVY.css"
+        "/turnera/chunk-FNZP5N25.js",
+        "/turnera/chunk-ZEBTN67S.js",
+        "/turnera/favicon.ico",
+        "/turnera/index.html",
+        "/turnera/main-GNYF7KEB.js",
+        "/turnera/manifest.webmanifest",
+        "/turnera/polyfills-FFHMD2TL.js",
+        "/turnera/styles-4YV7RNVY.css"
       ],
       "patterns": []
     },
@@ -30,36 +30,36 @@
         "ignoreVary": true
       },
       "urls": [
-        "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-128x128.png",
-        "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-144x144.png",
-        "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-152x152.png",
-        "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-192x192.png",
-        "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-384x384.png",
-        "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-512x512.png",
-        "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-72x72.png",
-        "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-96x96.png"
+        "/turnera/icons/icon-128x128.png",
+        "/turnera/icons/icon-144x144.png",
+        "/turnera/icons/icon-152x152.png",
+        "/turnera/icons/icon-192x192.png",
+        "/turnera/icons/icon-384x384.png",
+        "/turnera/icons/icon-512x512.png",
+        "/turnera/icons/icon-72x72.png",
+        "/turnera/icons/icon-96x96.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "https://angular-schule.github.io/angular-cli-ghpages/chunk-FNZP5N25.js": "b561e8145859cb2eac1bc4c46d172709924b3cc0",
-    "https://angular-schule.github.io/angular-cli-ghpages/chunk-ZEBTN67S.js": "114035cb02646a45a28430ebb16eb9213783ca7e",
-    "https://angular-schule.github.io/angular-cli-ghpages/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-128x128.png": "3527feadaca90cbc5b6b8bc673d12797eeea4a61",
-    "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-144x144.png": "5b5f4aab49b5b16d2fb673187e44b98dcffa35fe",
-    "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-152x152.png": "fa3902f84397b701566e5e4e009f063cbbd2574c",
-    "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-192x192.png": "2a26efa51d856efd80c051a930a98d3df048e20f",
-    "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-384x384.png": "400aa67d4a683370fc681c79d535d7173306c450",
-    "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-512x512.png": "ad5791c4b323962aa18968b5b0b20b5e5ced5e6b",
-    "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-72x72.png": "0196c606adf4302e8bdfee00d7c4100f929a9c18",
-    "https://angular-schule.github.io/angular-cli-ghpages/icons/icon-96x96.png": "397580c9d70401ee60d9490e26f4a0e442acb69e",
-    "https://angular-schule.github.io/angular-cli-ghpages/index.html": "8b53006677229f3660dc7bf878b57fba8d4863ea",
-    "https://angular-schule.github.io/angular-cli-ghpages/main-GNYF7KEB.js": "62d4d289308eb43fd9d83617eff76da5f5cabdf2",
-    "https://angular-schule.github.io/angular-cli-ghpages/manifest.webmanifest": "b479fe0b1683068444bc0f7eea4023217cfa2813",
-    "https://angular-schule.github.io/angular-cli-ghpages/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
-    "https://angular-schule.github.io/angular-cli-ghpages/styles-4YV7RNVY.css": "62c5d0bab7e29c48185429d1c01e625bafa5facc"
+    "/turnera/chunk-FNZP5N25.js": "b561e8145859cb2eac1bc4c46d172709924b3cc0",
+    "/turnera/chunk-ZEBTN67S.js": "114035cb02646a45a28430ebb16eb9213783ca7e",
+    "/turnera/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/turnera/icons/icon-128x128.png": "3527feadaca90cbc5b6b8bc673d12797eeea4a61",
+    "/turnera/icons/icon-144x144.png": "5b5f4aab49b5b16d2fb673187e44b98dcffa35fe",
+    "/turnera/icons/icon-152x152.png": "fa3902f84397b701566e5e4e009f063cbbd2574c",
+    "/turnera/icons/icon-192x192.png": "2a26efa51d856efd80c051a930a98d3df048e20f",
+    "/turnera/icons/icon-384x384.png": "400aa67d4a683370fc681c79d535d7173306c450",
+    "/turnera/icons/icon-512x512.png": "ad5791c4b323962aa18968b5b0b20b5e5ced5e6b",
+    "/turnera/icons/icon-72x72.png": "0196c606adf4302e8bdfee00d7c4100f929a9c18",
+    "/turnera/icons/icon-96x96.png": "397580c9d70401ee60d9490e26f4a0e442acb69e",
+    "/turnera/index.html": "362802e547c169a4da112a0e1c71491b3c4afee8",
+    "/turnera/main-GNYF7KEB.js": "62d4d289308eb43fd9d83617eff76da5f5cabdf2",
+    "/turnera/manifest.webmanifest": "b479fe0b1683068444bc0f7eea4023217cfa2813",
+    "/turnera/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "/turnera/styles-4YV7RNVY.css": "62c5d0bab7e29c48185429d1c01e625bafa5facc"
   },
   "navigationUrls": [
     {
