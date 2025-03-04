@@ -32,7 +32,7 @@
         </div> -->
 
         <div class="col">
-            <app-calendario [profesionales]="profesionales()"></app-calendario>
+            <app-calendario [profesionales]="profesionales()" [currentDate]="currentDate" (dateChange)="onDateChange($event)"></app-calendario>
         </div>
 
     </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Signal, WritableSignal } from '@angular/core';
 import { CalendarioComponent } from '../../components/calendario/calendario.component';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -12,10 +12,19 @@ import {MatIconModule} from '@angular/material/icon';
 @Component({
   selector: 'app-calendar',
   imports: [CalendarioComponent, MatFormFieldModule, MatChipsModule, MatIconModule, MatAutocompleteModule, FormsModule],
-  templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.scss'
+  templateUrl: './calendar.page.html',
+  styleUrl: './calendar.page.scss'
 })
-export class CalendarComponent {
+export class CalendarPage {
+
+  currentDate: WritableSignal<Date> = signal(new Date());
+  currentView: WritableSignal<string> = signal("dayGridMonth");
+
+  onDateChange(newDate: Date) {
+    this.currentDate.set(newDate);
+  }
+
+
   readonly currentProfesional = model('');
   readonly profesionales = signal<string[]>([]);
   readonly allProfesionales: string[] = ['Juan Perez', 'Maria Rodriguez', 'Lucas Mandela'];

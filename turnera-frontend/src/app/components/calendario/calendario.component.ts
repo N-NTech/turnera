@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, computed, inject, Input, input, Signal, signal, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, EventEmitter, inject, Input, input, Output, Signal, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput, DateInput, CalendarApi, FormatterInput } from '@fullcalendar/core';
@@ -8,6 +8,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import esLocale from '@fullcalendar/core/locales/es';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 class EventInputCustom implements EventInput {
   id?: string | undefined;
@@ -119,9 +120,43 @@ export function createEventId() {
   imports: [CommonModule, FullCalendarModule],
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.component.scss'],
+  animations: [
+    trigger('slideAnimation', [
+      // Al entrar desde la derecha (swipe left para avanzar)
+      transition('void => left', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ]),
+      // Al salir hacia la izquierda
+      transition('left => void', [
+        animate('300ms ease-out', style({ transform: 'translateX(-100%)', opacity: 0 }))
+      ]),
+      // Al entrar desde la izquierda (swipe right para retroceder)
+      transition('void => right', [
+        style({ transform: 'translateX(-100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ]),
+      // Al salir hacia la derecha
+      transition('right => void', [
+        animate('300ms ease-out', style({ transform: 'translateX(100%)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 
 export class CalendarioComponent {
+
+  //Animacion
+  // Dirección de la animación ('left' o 'right')
+  animationDirection: string = '';
+  // Controla si se muestra el calendario
+  calendarVisible: boolean = true;
+  // Fecha actual a mostrar
+  @Input() currentDate: Signal<Date> = signal(new Date());
+  @Output() dateChange = new EventEmitter<Date>();
+  // Variable para forzar la recreación del componente    
+  calendarKey: number = 0;
+
 
   //Muestra una vista segun si es Calendario o Agenda
   isAgenda = input<boolean>();
@@ -141,12 +176,16 @@ protected readonly isMobile = signal<boolean>(false);
 
 
   //Detecta si es un dispositivo tactil
-  isTouchDevice = false;
+  isTouchDevice() {
+    return window.matchMedia('(hover: none) and (pointer: coarse)').matches || 
+    ('ontouchstart' in window && navigator.maxTouchPoints > 0);
+  }
+
 
   //Muestra los botones de navegacion segun si es un dispositivo tactil
   private headerToolbar = computed(() => {
     return this.isAgenda() ? { left: 'title', right: 'listDay,listWeek,listMonth' } 
-    : this.isTouchDevice ? { left: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' } 
+    : this.isTouchDevice() ? { left: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' } 
     : { left: 'dayGridMonth,timeGridWeek,timeGridDay', center: 'title', right: 'prev,next today' };
   });
 
@@ -176,6 +215,7 @@ protected readonly isMobile = signal<boolean>(false);
     ],
     headerToolbar: this.headerToolbar(),
     initialView: this.initialView(),
+    initialDate: this.currentDate(),
     events: this.events(), // Usamos directamente el computed
     hiddenDays: [], // Oculta dias [0,1,2]
     weekends: true,
@@ -212,9 +252,6 @@ protected readonly isMobile = signal<boolean>(false);
   }));
 
   constructor(private changeDetector: ChangeDetectorRef) {
-
-    console.log("isAgenda", this.isAgenda);
-
     //Detecta si el dispositivo es mobile
     const media = inject(MediaMatcher);
 
@@ -223,10 +260,9 @@ protected readonly isMobile = signal<boolean>(false);
     this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
 
-    // Detecta si es un dispositivo tactil
-    this.isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches || 
-                        ('ontouchstart' in window && navigator.maxTouchPoints > 0);
   }
+
+
 
   ngAfterViewInit() {
     let calendarAPI: CalendarApi = this.calendarComponent.getApi();
@@ -235,6 +271,12 @@ protected readonly isMobile = signal<boolean>(false);
 
   ngOnDestroy(): void {
     this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
+  }
+
+  ngOnChanges() {
+    console.log("isAgenda", this.isAgenda());
+    console.log("isMobile", this.isMobile());
+    console.log("isTouchDevice", this.isTouchDevice());
   }
 
   currentEvents = signal<EventApi[]>([]);
@@ -269,15 +311,29 @@ protected readonly isMobile = signal<boolean>(false);
 
   //Cambia el mes/semana/dia con un swipe si es un dispositivo tactil
   onSwipeLeft(): void {
-    if (this.isTouchDevice) {
-      this.calendarApi().next();
+    if (this.isTouchDevice()) {
+      this.animationDirection = 'left';
+      this.animateCalendar(() => this.calendarApi().next());
     }
   }
 
   onSwipeRight(): void {
-    if (this.isTouchDevice) {
-      this.calendarApi().prev();
+    if (this.isTouchDevice()) {
+      this.animationDirection = 'right';
+      this.animateCalendar(() => this.calendarApi().prev());
     }
+  }
+
+  // Modify the animateCalendar method to emit the new date
+  private animateCalendar(changeDate: () => void): void {
+    this.calendarVisible = false;
+
+    setTimeout(() => {
+      changeDate();
+      const newDate = this.calendarApi().getDate();
+      this.dateChange.emit(newDate);
+      this.calendarVisible = true;
+    }, 300);
   }
 
 }
