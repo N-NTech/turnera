@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, computed, EventEmitter, inject, Input, input, Output, Signal, signal, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, EventEmitter, inject, Input, input, Output, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput, DateInput, CalendarApi, FormatterInput } from '@fullcalendar/core';
@@ -153,8 +153,11 @@ export class CalendarioComponent {
   calendarVisible: boolean = true;
   // Fecha actual a mostrar
   @Input() currentDate: Signal<Date> = signal(new Date());
-  @Output() dateChange = new EventEmitter<Date>();
+  @Input() currentView: WritableSignal<string> = signal('');
+  
   // Variable para forzar la recreación del componente    
+  @Output() dateChange = new EventEmitter<Date>();
+  @Output() viewChange = new EventEmitter<string>();
   calendarKey: number = 0;
 
 
@@ -170,7 +173,6 @@ protected readonly isMobile = signal<boolean>(false);
 
 //Muestra un formato de titulo segun si es mobile o no
   private dayTitleFormat: Signal<FormatterInput> = computed(() => {
-    console.log('isMobile', this.isMobile());
     return this.isMobile() ? { day: 'numeric', month: 'numeric', year: '2-digit' } : { day: 'numeric', month: 'long', year: '2-digit', };
   });
 
@@ -214,7 +216,7 @@ protected readonly isMobile = signal<boolean>(false);
       listPlugin,
     ],
     headerToolbar: this.headerToolbar(),
-    initialView: this.initialView(),
+    initialView: this.currentView(),
     initialDate: this.currentDate(),
     events: this.events(), // Usamos directamente el computed
     hiddenDays: [], // Oculta dias [0,1,2]
@@ -223,6 +225,9 @@ protected readonly isMobile = signal<boolean>(false);
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
+    datesSet: (dateInfo) => {
+      this.handleViewChange(dateInfo);
+    },
     //Configuraciones especificas para cada vista
     views: {
       dayGridMonth: { // name of view
@@ -313,16 +318,51 @@ protected readonly isMobile = signal<boolean>(false);
   onSwipeLeft(): void {
     if (this.isTouchDevice()) {
       this.animationDirection = 'left';
-      this.animateCalendar(() => this.calendarApi().next());
+      this.animateCalendar(() => this.navigateByView('next'));
     }
   }
 
   onSwipeRight(): void {
     if (this.isTouchDevice()) {
       this.animationDirection = 'right';
-      this.animateCalendar(() => this.calendarApi().prev());
+      this.animateCalendar(() => this.navigateByView('prev'));
     }
   }
+
+  private navigateByView(direction: 'next' | 'prev'): void {
+    const calendarApi = this.calendarApi();
+    const currentView = this.currentView();
+  
+    const currentDate = calendarApi.getDate();
+    let newDate: Date;
+  
+    switch (currentView) {
+      case 'timeGridWeek':
+      case 'listWeek':
+        const weekOffset = direction === 'next' ? 7 : -7;
+        newDate = new Date(currentDate);
+        newDate.setDate(currentDate.getDate() + weekOffset);
+        break;
+      case 'timeGridDay':
+      case 'listDay':
+        const dayOffset = direction === 'next' ? 1 : -1;
+        newDate = new Date(currentDate);
+        newDate.setDate(currentDate.getDate() + dayOffset);
+        break;
+      case 'dayGridMonth':
+      case 'listMonth':
+        newDate = new Date(currentDate);
+        newDate.setMonth(currentDate.getMonth() + (direction === 'next' ? 1 : -1));
+        break;
+      default:
+        newDate = currentDate;
+        break;
+    }
+  
+    calendarApi.gotoDate(newDate);
+    calendarApi.changeView(currentView, newDate);
+  }
+
 
   // Modify the animateCalendar method to emit the new date
   private animateCalendar(changeDate: () => void): void {
@@ -335,5 +375,12 @@ protected readonly isMobile = signal<boolean>(false);
       this.calendarVisible = true;
     }, 300);
   }
+
+    handleViewChange(dateInfo: any) {
+      const currentView = dateInfo.view.type;
+      this.currentView.set(currentView);
+      this.viewChange.emit(currentView);
+  }
+
 
 }

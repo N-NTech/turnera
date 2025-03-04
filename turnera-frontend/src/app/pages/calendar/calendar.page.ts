@@ -18,10 +18,14 @@ import {MatIconModule} from '@angular/material/icon';
 export class CalendarPage {
 
   currentDate: WritableSignal<Date> = signal(new Date());
-  currentView: WritableSignal<string> = signal("dayGridMonth");
+  currentView: WritableSignal<string> = signal('');
 
   onDateChange(newDate: Date) {
     this.currentDate.set(newDate);
+  }
+
+  onViewChange(newView: string) {
+    this.currentView.set(newView);
   }
 
 

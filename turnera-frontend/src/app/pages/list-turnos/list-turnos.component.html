@@ -1,7 +1,14 @@
 <div class="container">
     <div class="row d-flex flex-column">
         <div class="col">
-            <app-calendario [profesionales]="profesionales()" [isAgenda]="true" ></app-calendario>
+            <app-calendario 
+                [profesionales]="profesionales()" 
+                [isAgenda]="true" 
+                [currentDate]="currentDate" 
+                (dateChange)="onDateChange($event)" 
+                [currentView]="currentView" 
+                (viewChange)="onViewChange($event)">
+            </app-calendario>
         </div>
 
     </div>
