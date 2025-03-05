@@ -9,6 +9,9 @@ import listPlugin from '@fullcalendar/list';
 import esLocale from '@fullcalendar/core/locales/es';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
+import { EventDetailsDialogComponent } from './evento-dialog/evento-dialog.component';
+
 
 class EventInputCustom implements EventInput {
   id?: string | undefined;
@@ -47,6 +50,7 @@ function getBackgroundColorByProfesional(profesional: string) {
 let eventGuid = 0;
 const TODAY_STR = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
 const TOMORROW_STR = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of tomorrow
+const POST_TOMORROW_STR = new Date(new Date().getTime() + 48 * 60 * 60 * 1000).toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of tomorrow
 
 export let INITIAL_EVENTS: EventInputCustom[] = [
   {
@@ -107,6 +111,16 @@ export let INITIAL_EVENTS: EventInputCustom[] = [
     profesional: 'Maria Rodriguez',
     cliente: 'Dina Choque',
     display: 'block',
+  },
+  {
+    id: createEventId(),
+    title: 'Evento que dura 2 dias',
+    start: TOMORROW_STR + 'T20:00:00',
+    end: POST_TOMORROW_STR + 'T12:00:00',
+    profesional: 'Pablos Lopes',
+    cliente: 'Evelyn Gorria',
+    backgroundColor: "darkviolet",
+    display: 'block',
   }
 ];
 
@@ -158,15 +172,14 @@ export class CalendarioComponent {
   // Variable para forzar la recreación del componente    
   @Output() dateChange = new EventEmitter<Date>();
   @Output() viewChange = new EventEmitter<string>();
-  calendarKey: number = 0;
 
 
   //Muestra una vista segun si es Calendario o Agenda
   isAgenda = input<boolean>();
   private initialView = computed(() => this.isAgenda() ? 'listDay' : 'dayGridMonth');
 
-//Detecta si el dispositivo es mobile
-protected readonly isMobile = signal<boolean>(false);
+  //Detecta si el dispositivo es mobile
+  protected readonly isMobile = signal<boolean>(false);
 
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
@@ -218,7 +231,7 @@ protected readonly isMobile = signal<boolean>(false);
     headerToolbar: this.headerToolbar(),
     initialView: this.currentView(),
     initialDate: this.currentDate(),
-    events: this.events(), // Usamos directamente el computed
+    events: 'https://fullcalendar.io/api/demo-feeds/events.json',
     hiddenDays: [], // Oculta dias [0,1,2]
     weekends: true,
     editable: true,
@@ -252,11 +265,11 @@ protected readonly isMobile = signal<boolean>(false);
     },
     // displayEventTime: true,
     // select: this.handleDateSelect.bind(this),
-    // eventClick: this.handleEventClick.bind(this),
+    eventClick: this.handleEventClick.bind(this),
     // eventsSet: this.handleEvents.bind(this),
   }));
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+  constructor(private dialog: MatDialog, private changeDetector: ChangeDetectorRef) {
     //Detecta si el dispositivo es mobile
     const media = inject(MediaMatcher);
 
@@ -304,9 +317,19 @@ protected readonly isMobile = signal<boolean>(false);
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
-    }
+    this.dialog.open(EventDetailsDialogComponent, {
+      width: '400px',
+      data: {
+        id: clickInfo.event.id,
+        title: clickInfo.event.title,
+        allDay: clickInfo.event.allDay,
+        start: clickInfo.event.start,
+        end: clickInfo.event.end,
+        cliente: clickInfo.event.extendedProps?.['cliente'],
+        profesional: clickInfo.event.extendedProps?.['profesional'],
+        extendedProps: clickInfo.event.extendedProps
+      }
+    });
   }
 
   handleEvents(events: EventApi[]) {
