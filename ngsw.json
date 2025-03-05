@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1741152702923,
+  "timestamp": 1741217495618,
   "index": "/turnera/index.html",
   "assetGroups": [
     {
@@ -15,7 +15,7 @@
         "/turnera/chunk-T5VSC4LF.js",
         "/turnera/favicon.ico",
         "/turnera/index.html",
-        "/turnera/main-RNPDGPFB.js",
+        "/turnera/main-TTZO5GPM.js",
         "/turnera/manifest.webmanifest",
         "/turnera/polyfills-FFHMD2TL.js",
         "/turnera/styles-4YV7RNVY.css"
@@ -55,8 +55,8 @@
     "/turnera/icons/icon-512x512.png": "ad5791c4b323962aa18968b5b0b20b5e5ced5e6b",
     "/turnera/icons/icon-72x72.png": "0196c606adf4302e8bdfee00d7c4100f929a9c18",
     "/turnera/icons/icon-96x96.png": "397580c9d70401ee60d9490e26f4a0e442acb69e",
-    "/turnera/index.html": "779d0d4df78ee737e4d2a4a6f20bfb4e913dc97d",
-    "/turnera/main-RNPDGPFB.js": "75da080b129da81d528d51ef7863b13077796073",
+    "/turnera/index.html": "a5856e96407b93be8f2c18ea17de63056c37e82f",
+    "/turnera/main-TTZO5GPM.js": "111623f9231619e84eda40dc8aa0be318040cd4d",
     "/turnera/manifest.webmanifest": "b479fe0b1683068444bc0f7eea4023217cfa2813",
     "/turnera/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
     "/turnera/styles-4YV7RNVY.css": "62c5d0bab7e29c48185429d1c01e625bafa5facc"
