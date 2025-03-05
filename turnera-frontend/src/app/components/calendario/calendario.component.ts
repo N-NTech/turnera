@@ -176,7 +176,6 @@ export class CalendarioComponent {
 
   //Muestra una vista segun si es Calendario o Agenda
   isAgenda = input<boolean>();
-  private initialView = computed(() => this.isAgenda() ? 'listDay' : 'dayGridMonth');
 
   //Detecta si el dispositivo es mobile
   protected readonly isMobile = signal<boolean>(false);
@@ -231,7 +230,7 @@ export class CalendarioComponent {
     headerToolbar: this.headerToolbar(),
     initialView: this.currentView(),
     initialDate: this.currentDate(),
-    events: 'https://fullcalendar.io/api/demo-feeds/events.json',
+    events: 'https://run.mocky.io/v3/7d09ded2-1e0d-439d-aaf1-42eeb6d9d19b',
     hiddenDays: [], // Oculta dias [0,1,2]
     weekends: true,
     editable: true,
