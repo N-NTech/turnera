@@ -32,9 +32,7 @@
               }
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/magenta-violet.css",
-              "src/styles.scss"
-            ],
+              "@angular/material/prebuilt-themes/magenta-violet.css","src/styles.scss", "src/angularMaterialCustomTheme.scss"],
             "scripts": []
           },
           "configurations": {
@@ -93,9 +91,7 @@
               }
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/magenta-violet.css",
-              "src/styles.scss"
-            ],
+              "@angular/material/prebuilt-themes/magenta-violet.css","src/styles.scss", "src/angularMaterialCustomTheme.scss"],
             "scripts": []
           }
         },
